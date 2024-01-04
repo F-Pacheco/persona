@@ -1,6 +1,5 @@
 package com.example.persona.services;
 
-
 import com.example.persona.entities.Persona;
 import com.example.persona.repositories.PersonaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +8,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -20,7 +18,7 @@ public class PersonaService implements BaseService<Persona>{
     @Override
     public List<Persona> findAll() throws Exception {
         try {
-            return entities = personaRepository.findAll();
+            return personaRepository.findAll();
         } catch (Exception e) {
             throw new Exception(e.getMessage());
         }
@@ -37,12 +35,10 @@ public class PersonaService implements BaseService<Persona>{
         }
 
     }
-
     @Override
     public Persona save(Persona entity) throws Exception {
         try {
-            entity = personaRepository.save(entity);
-            return entity;
+            return personaRepository.save(entity);
         }catch (Exception e){
             throw new Exception(e.getMessage());
         }
@@ -53,9 +49,7 @@ public class PersonaService implements BaseService<Persona>{
         try {
             Optional<Persona> entityOptional = personaRepository.findById(id);
             Persona personaUpdate = entityOptional.get();
-            personaRepository.save(personaUpdate);
-            return personaUpdate;
-            return entityOptional.get();
+            return personaRepository.save(personaUpdate);
         }catch (Exception e){
             throw new Exception(e.getMessage());
         }
@@ -73,6 +67,5 @@ public class PersonaService implements BaseService<Persona>{
         }catch (Exception e){
             throw new Exception(e.getMessage());
         }
-        return personaRepository.delete(id);
     }
 }
