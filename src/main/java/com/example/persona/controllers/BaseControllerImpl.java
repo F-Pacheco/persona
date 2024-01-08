@@ -4,6 +4,7 @@ import com.example.persona.entities.BaseEntity;
 import com.example.persona.entities.Persona;
 import com.example.persona.services.BaseServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -27,6 +28,19 @@ public abstract class BaseControllerImpl<E extends BaseEntity, S extends BaseSer
                     .body("{\"error\":\"Error, por favor intente mas tarde.\"}");
         }
     }
+    @GetMapping("/paged")
+    public ResponseEntity<?> getAll(Pageable pageable){ //con paginación
+        try {
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body(servicio.findAll(pageable));
+        }catch (Exception e){
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body("{\"error\":\"Error, por favor intente mas tarde.\"}");
+        }
+    }
+
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getOne(@PathVariable Long id){
@@ -37,7 +51,7 @@ public abstract class BaseControllerImpl<E extends BaseEntity, S extends BaseSer
         }catch (Exception e){
             return ResponseEntity
                     .status(HttpStatus.NOT_FOUND)
-                    .body("{\"error\":\"Error, no se encontro la persona.\"}");
+                    .body("{\"error\":\"Error, no se encontro \"}");
         }
     }
     @PostMapping("")
@@ -49,7 +63,7 @@ public abstract class BaseControllerImpl<E extends BaseEntity, S extends BaseSer
         }catch (Exception e){
             return ResponseEntity
                     .status(HttpStatus.BAD_REQUEST)
-                    .body("{\"error\":\"Error, no se encontro la persona.\"}");
+                    .body("{\"error\":\"Error, no se encontro "+entitySave.getClass()+" \"}");
         }
     }
     @PutMapping("/{id}")
@@ -61,7 +75,7 @@ public abstract class BaseControllerImpl<E extends BaseEntity, S extends BaseSer
         }catch (Exception e){
             return ResponseEntity
                     .status(HttpStatus.BAD_REQUEST)
-                    .body("{\"error\":\"Error, no se encontro la persona.\"}");
+                    .body("{\"error\":\"Error, no se encontro \""+entityUpdate.getClass()+"\"}");
         }
     }
 
@@ -74,7 +88,7 @@ public abstract class BaseControllerImpl<E extends BaseEntity, S extends BaseSer
         }catch (Exception e){
             return ResponseEntity
                     .status(HttpStatus.BAD_REQUEST)
-                    .body("{\"error\":\"Error, no se encontro la persona.\"}");
+                    .body("{\"error\":\"Error, no se encontro\"}");
         }
     }
 }
